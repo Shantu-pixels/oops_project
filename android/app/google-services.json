@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "868798717156",
+    "project_id": "ultimate-ai-a55f8",
+    "storage_bucket": "ultimate-ai-a55f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868798717156:android:a7824fb2711e045705e0f1",
+        "android_client_info": {
+          "package_name": "com.UAi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjJmvZP36aNXmmIqzOUKYlMNj0jc-Yn6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
