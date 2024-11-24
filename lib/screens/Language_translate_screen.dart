@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../APIs/Apis.dart';
 
 class TranslatorScreen extends StatefulWidget {
   const TranslatorScreen({super.key});
@@ -11,6 +14,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   String fromLanguage = 'English';
   String toLanguage = 'Spanish';
   final textController = TextEditingController();
+  String translatedText = 'Translated text will appear here...';
+  bool isTranslating = false;
 
   @override
   void dispose() {
@@ -21,39 +26,30 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade50, Colors.white],
-            stops: const [0.0, 0.3],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      _buildLanguageSelector(),
-                      const SizedBox(height: 24),
-                      _buildInputArea(),
-                      const SizedBox(height: 24),
-                      _buildTranslatedArea(),
-                      const SizedBox(height: 24),
-                      _buildTranslateButton(),
-                      const SizedBox(height: 24),
-                      _buildVoiceControls(),
-                    ],
-                  ),
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    _buildLanguageSelector(),
+                    const SizedBox(height: 24),
+                    _buildInputArea(),
+                    const SizedBox(height: 24),
+                    _buildTranslatedArea(),
+                    const SizedBox(height: 24),
+                    _buildTranslateButton(),
+                    const SizedBox(height: 24),
+                    _buildVoiceControls(),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -63,15 +59,16 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue.shade300, Colors.blue.shade100],
+        color: Colors.black,
+        border: Border(
+          bottom: BorderSide(color: Colors.blue.withOpacity(0.3)),
         ),
       ),
       child: Row(
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {},
+            onPressed: () => Navigator.pop(context),
           ),
           const SizedBox(width: 8),
           const Text(
@@ -91,15 +88,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-          ),
-        ],
+        border: Border.all(color: Colors.blue.withOpacity(0.3)),
       ),
       child: Row(
         children: [
@@ -121,20 +112,41 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     );
   }
 
-  Widget _buildLanguageDropdown(
-      {
+  Widget _buildLanguageDropdown({
     required String value,
     required ValueChanged<String?> onChanged,
   }) {
     return DropdownButton<String>(
       value: value,
-      items: ['English', 'Spanish', 'French', 'German', 'Italian']
-          .map((String value) {
+      dropdownColor: Colors.grey[900],
+      style: const TextStyle(color: Colors.white),
+      items: [
+        'English',
+        'Spanish',
+        'French',
+        'German',
+        'Italian',
+        'Hindi',
+        'Bengali',
+        'Marathi',
+        'Chinese',
+        'Japanese',
+        'Korean',
+        'Russian',
+        'Portuguese',
+        'Arabic',
+        'Turkish',
+        'Tamil',
+        'Telugu',
+        'Gujarati',
+        'Punjabi',
+        'Urdu'
+      ].map((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Row(
             children: [
-              const Icon(Icons.language, size: 20),
+              Icon(Icons.language, size: 20, color: Colors.blue),
               const SizedBox(width: 8),
               Text(value),
             ],
@@ -150,11 +162,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   Widget _buildSwapButton() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: LinearGradient(
-          colors: [Colors.blue, Colors.purple],
-        ),
+        color: Colors.blue,
       ),
       child: IconButton(
         icon: const Icon(Icons.swap_horiz, color: Colors.white),
@@ -173,11 +183,24 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     return TextField(
       controller: textController,
       maxLines: 4,
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         hintText: 'Enter text to translate...',
+        hintStyle: TextStyle(color: Colors.grey[600]),
         contentPadding: const EdgeInsets.all(16),
+        filled: true,
+        fillColor: Colors.grey[900],
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.blue.withOpacity(0.3)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.blue.withOpacity(0.3)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Colors.blue),
         ),
       ),
     );
@@ -187,9 +210,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[900],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Colors.blue.withOpacity(0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -200,21 +223,30 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
               Text(
                 'Translation',
                 style: TextStyle(
-                  color: Colors.grey.shade600,
+                  color: Colors.grey[400],
                   fontWeight: FontWeight.bold,
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.copy, size: 20),
-                onPressed: () {},
+                icon: Icon(Icons.copy, size: 20, color: Colors.grey[400]),
+                onPressed: () {
+                  if (translatedText != 'Translated text will appear here...' &&
+                      translatedText != 'Translating...') {
+                    Clipboard.setData(ClipboardData(text: translatedText));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Translation copied to clipboard')),
+                    );
+                  }
+                },
                 tooltip: 'Copy translation',
               ),
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Translated text will appear here...',
-            style: TextStyle(fontSize: 16),
+          Text(
+            translatedText,
+            style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
         ],
       ),
@@ -226,21 +258,11 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       width: double.infinity,
       height: 50,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Colors.blue, Colors.purple],
-        ),
+        color: Colors.blue,
         borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: isTranslating ? null : translateText,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -248,9 +270,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
             borderRadius: BorderRadius.circular(25),
           ),
         ),
-        child: const Text(
-          'Translate',
-          style: TextStyle(
+        child: Text(
+          isTranslating ? 'Translating...' : 'Translate',
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -259,21 +281,50 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       ),
     );
   }
+
   Widget _buildVoiceControls() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          icon: const Icon(Icons.mic),
+          icon: Icon(Icons.mic, color: Colors.grey[400]),
           onPressed: () {},
           tooltip: 'Voice input',
         ),
         IconButton(
-          icon: const Icon(Icons.volume_up),
+          icon: Icon(Icons.volume_up, color: Colors.grey[400]),
           onPressed: () {},
           tooltip: 'Voice output',
         ),
       ],
     );
+  }
+
+  Future<void> translateText() async {
+    if (textController.text.trim().isEmpty) return;
+
+    setState(() {
+      isTranslating = true;
+      translatedText = 'Translating...';
+    });
+
+    try {
+      final prompt = '''
+      Translate the following text from $fromLanguage to $toLanguage:
+      "${textController.text}"
+      Only provide the direct translation without any explanations.''';
+
+      final response = await APIs.generateContent(prompt);
+
+      setState(() {
+        translatedText = response;
+        isTranslating = false;
+      });
+    } catch (e) {
+      setState(() {
+        translatedText = 'Translation failed. Please try again.';
+        isTranslating = false;
+      });
+    }
   }
 }

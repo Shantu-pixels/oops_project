@@ -32,7 +32,7 @@ class _LoginpageState extends State<Loginpage> {
                 size: 100,
                 color: Colors.white,
               ),
-               SizedBox(height: 16),
+              SizedBox(height: 16),
               Text(
                 'Login To Account',
                 style: TextStyle(
@@ -42,8 +42,8 @@ class _LoginpageState extends State<Loginpage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-               SizedBox(height: 10),
-               Text(
+              SizedBox(height: 10),
+              Text(
                 'Login to explore amazing AI features!',
                 style: TextStyle(
                   fontSize: 16,
@@ -53,14 +53,14 @@ class _LoginpageState extends State<Loginpage> {
               ),
               SizedBox(height: 40),
 
-             SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildTextField(
                 controller: _emailcontrolletr,
                 label: 'Email',
                 icon: Icons.email_outlined,
                 isPassword: false,
               ),
-               SizedBox(height: 16),
+              SizedBox(height: 16),
               _buildTextField(
                 controller: _passwordcontrolletr,
                 label: 'Password',
@@ -74,18 +74,18 @@ class _LoginpageState extends State<Loginpage> {
                   onPressed: ()async {
                     String email = _emailcontrolletr.text.trim();
                     String password = _passwordcontrolletr.text.trim();
-                     try{
-                        final loginuser=await _auth.signInWithEmailAndPassword(email: email, password: password);
-                        if(loginuser!=null){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-                        }
-                        else{
+                    try{
+                      final loginuser=await _auth.signInWithEmailAndPassword(email: email, password: password);
+                      if(loginuser!=null){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                      }
+                      else{
 
-                        }
-                     }
-                     catch(e){
-                       print(e);
-                     }
+                      }
+                    }
+                    catch(e){
+                      print(e);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
@@ -104,10 +104,10 @@ class _LoginpageState extends State<Loginpage> {
                   ),
                 ),
               ),
-               SizedBox(height: 20),
+              SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupPage())) ;
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupPage())) ;
                 },
                 child:  Text(
                   'Dont Have a Account? Signup',

@@ -21,7 +21,7 @@ class _ImagegeneratorScreenState extends State<ImagegeneratorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black54,
-     appBar:  AppBar(
+      appBar:  AppBar(
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -60,8 +60,8 @@ class _ImagegeneratorScreenState extends State<ImagegeneratorScreen> {
             SizedBox(height: 50,),
             Container(
               height: 300,
-                width: 300,
-                child: Obx(()=>_aiImage()),
+              width: 300,
+              child: Obx(()=>_aiImage()),
             ),
             SizedBox(height: 50,),
             ElevatedButton(
@@ -105,5 +105,3 @@ class _ImagegeneratorScreenState extends State<ImagegeneratorScreen> {
   );
 
 }
-
-

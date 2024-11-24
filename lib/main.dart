@@ -2,7 +2,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oops_project/screens/ChatBox_Screen.dart';
 import 'package:oops_project/screens/Home_page.dart';
+import 'package:oops_project/screens/Splash_Screen.dart';
+import 'Authethication_screens/Ask_auth.dart';
 import 'firebase_options.dart';
 
 void main()async {
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:HomePage(),
+      home:SplashScreen(),
     );
   }
 }

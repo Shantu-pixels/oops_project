@@ -32,4 +32,3 @@ class ImageController extends GetxController{
 
   }
 }
-
