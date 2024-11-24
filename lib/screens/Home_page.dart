@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void navigateToLanguageTranslator() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageTranslateScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => TranslatorScreen()));
   }
 
   @override
